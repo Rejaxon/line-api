@@ -16,6 +16,8 @@ module Line
                 redirect_uri: oauth_cb_uri,
             }
           end
+          error_code = res.body['error']
+          raise Error::InvalidRequestToken, error_code if error_code == '412' || error_code == '415'
           raise Error::Communication, "Invalid HTTP Status: #{res.status}. #{res.body}" if res.status != 200
           res.body
         end
