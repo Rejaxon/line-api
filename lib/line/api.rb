@@ -1,5 +1,3 @@
-require "active_support"
-
 require "line/api/version"
 require "line/api/client"
 
