@@ -26,19 +26,20 @@ module Line
 
       private
 
-      def url_encoded_request(access_token = nil)
-        build_request({
-                          request_content_type: :url_encoded,
-                          access_token: access_token,
-                      })
+      def url_encoded_request(options = {})
+        default_options = {
+            request_content_type: :url_encoded,
+            access_token: nil,
+        }
+        build_request(default_options.merge(options))
       end
 
-      def json_request(access_token = nil)
-        access_token ||= channel_access_token
-        build_request({
-                          request_content_type: :json,
-                          access_token: access_token,
-                      })
+      def json_request(options = {})
+        default_options = {
+            request_content_type: :json,
+            access_token: channel_access_token,
+        }
+        build_request(default_options.merge(options))
       end
 
       def build_request(options = {})
