@@ -19,6 +19,8 @@ module Line
           error_code = res.body['error']
           raise Error::InvalidRequestToken, error_code if error_code == '412' || error_code == '415'
           raise Error::Communication, "Invalid HTTP Status: #{res.status}. #{res.body}" if res.status != 200
+          # expires_in: access_token発行時点からの有効秒数. expire parameterの仕様に合わせて返す
+          res.body['expire'] = ((Time.now - Time.utc(1970, 1, 1)).to_i + body['expires_in'].to_i) * 1000
           res.body
         end
 
