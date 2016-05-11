@@ -8,8 +8,7 @@ require "line/api/endpoint"
 module Line
   module Api
     class Client
-      attr_accessor :base_url, :channel_id, :channel_secret, :channel_access_token, :oauth_cb_uri,
-                    :debug_mode
+      attr_accessor :base_url, :channel_id, :channel_secret, :oauth_cb_uri, :debug_mode
 
       def initialize(options = {})
         options = Line::Api::Configuration.config.merge(options)
@@ -26,26 +25,15 @@ module Line
 
       private
 
-      def url_encoded_request(options = {})
-        default_options = {
-            request_content_type: :url_encoded,
-            access_token: nil,
-        }
-        build_request(default_options.merge(options))
-      end
-
-      def json_request(options = {})
-        default_options = {
-            request_content_type: :json,
-            access_token: channel_access_token,
-        }
-        build_request(default_options.merge(options))
-      end
-
-      def build_request(options = {})
+      # @see http://www.rubydoc.info/github/lostisland/faraday/Faraday/Connection
+      # @see http://www.rubydoc.info/github/lostisland/faraday/Faraday/Request
+      def build_connection(headers = {})
         Faraday.new base_url do |builder|
-          builder.headers['X-Line-ChannelToken'] = options[:access_token].to_s if options[:access_token]
-          builder.request (options[:request_content_type] || :json)
+          headers.each do |k, v|
+            next unless k.is_a?(String) && v.is_a?(String)
+            builder.headers[k] = v.to_s
+          end
+          builder.request headers[:content_type] if headers[:content_type]
           builder.response :json, :content_type => /\bjson\Z/
           builder.response :logger if debug_mode
           builder.use :instrumentation
