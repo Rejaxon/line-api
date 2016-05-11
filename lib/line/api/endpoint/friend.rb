@@ -5,7 +5,7 @@ module Line
 
         # https://developers.line.me/businessconnect/api-reference#add_oa_as_friend
         def add_friend(user_access_token)
-          res = json_request(access_token: user_access_token).post do |req|
+          res = build_request(:content_type => :json, 'X-Line-ChannelToken' => user_access_token).post do |req|
             req.url('officialaccount/contacts')
           end
           # ユーザー設定によって自動追加できないケースで通信エラーではない. ユーザーにLINEアプリからの設定へ誘導

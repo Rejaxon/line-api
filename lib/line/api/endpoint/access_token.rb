@@ -4,9 +4,9 @@ module Line
       module AccessToken
         attr_accessor :oauth_cb_uri
 
-        # https://developers.line.me/web-login/integrating-web-login#obtain_access_token
+        # @see https://developers.line.me/web-login/integrating-web-login#obtain_access_token
         def retrieve_access_token(oauth_code)
-          res = url_encoded_request.post do |req|
+          res = build_connection(:content_type => :url_encoded).post do |req|
             req.url('oauth/accessToken')
             req.body = {
                 grant_type: 'authorization_code',
@@ -24,9 +24,10 @@ module Line
           res.body
         end
 
-        # https://developers.line.me/restful-api/overview#refresh_token
+        # @see https://developers.line.me/restful-api/overview#refresh_token
         def reissue_access_token(old_access_token, refresh_token)
-          res = url_encoded_request(old_access_token).post do |req|
+          headers = { :content_type => :url_encoded, 'X-Line-ChannelToken' => old_access_token }
+          res = build_connection(headers).post do |req|
             req.url('oauth/accessToken')
             req.body = {
                 refreshToken: refresh_token,
