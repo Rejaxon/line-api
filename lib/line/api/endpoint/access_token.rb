@@ -38,6 +38,15 @@ module Line
           res.body
         end
 
+        # @see https://developers.line.me/restful-api/overview#check_token
+        def check_access_token(access_token)
+          conn = build_connection
+          conn.authorization :Bearer, access_token
+          res = conn.get { |req| req.url('oauth/verify') }
+          raise Error::Communication, "Invalid HTTP Status: #{res.status}. #{res.body}" if res.status != 200
+          res.body
+        end
+
       end
     end
   end
