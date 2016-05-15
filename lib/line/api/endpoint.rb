@@ -5,6 +5,7 @@ module Line
     module Endpoint
       include AccessToken
       include Friend
+      include Message
     end
   end
 end
