@@ -1,5 +1,6 @@
 require "line/api/version"
 require "line/api/client"
+require "line/api/util"
 
 module Line
   module Api
