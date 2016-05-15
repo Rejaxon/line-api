@@ -12,7 +12,7 @@ module Line
                 to: to,
                 toChannel: 1383378250,
                 eventType: '138311608800106203',
-                content: content
+                content: content.as_json
             }
           end
           raise Error::Communication, "Invalid HTTP Status: #{res.status}. #{res.body}" if res.status != 200
@@ -58,7 +58,7 @@ module Line
                 toChannel: 1383378250,
                 eventType: '140177271400161403',
                 content: {
-                    messages: multiple_contents
+                    messages: multiple_contents.map(&:as_json)
                 }
             }
           end
