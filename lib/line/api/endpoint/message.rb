@@ -49,6 +49,7 @@ module Line
                               text_placeholder: {}, sub_text_placeholder: {}, link_text_placeholder: {},
                               alt_text_placeholder: {}, android_uri_placeholder: {}, iphone_uri_placeholder: {}, web_uri_placeholder: {})
           to = [to] if to.is_a?(String)
+          text_placeholder = text_placeholder.map {|k, v| [k, CGI.escape_html(v)] }.to_h if text_placeholder.is_a?(Hash)
           res = build_connection(:content_type => :json, 'X-Line-ChannelToken' => channel_access_token).post do |req|
             req.url('events')
             req.body = {
