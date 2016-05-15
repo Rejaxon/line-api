@@ -6,6 +6,15 @@ module Line
     class Util
 
       class << self
+
+        # validate_signature(request.raw_post, request.headers)
+        def validate_signature(request_body_string, headers)
+          channel_secret = Line::Api::Configuration.channel_secret
+          hash = OpenSSL::HMAC::digest(OpenSSL::Digest::SHA256.new, channel_secret, request_body_string)
+          signature = Base64.strict_encode64(hash)
+          signature == headers['X-LINE-CHANNELSIGNATURE']
+        end
+
         # for Channel Web Application
         def retrieve_access_token_from_encrypted_string(encrypted_string)
           cipher = OpenSSL::Cipher::Cipher.new('AES-128-ECB')
