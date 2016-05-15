@@ -8,7 +8,7 @@ module Line
         CONTENT_TYPE = 3
         attr_accessor :url, :thumbnail_url
 
-        def to_json
+        def as_json
           super.merge(
               {
                   originalContentUrl: url,

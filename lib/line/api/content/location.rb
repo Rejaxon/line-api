@@ -8,7 +8,7 @@ module Line
         CONTENT_TYPE = 7
         attr_accessor :title, :latitude, :longitude, :address
 
-        def to_json
+        def as_json
           super.merge(
               text: title,
               location: {

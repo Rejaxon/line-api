@@ -8,7 +8,7 @@ module Line
         CONTENT_TYPE = 4
         attr_accessor :url, :ms
 
-        def to_json
+        def as_json
           super.merge(
               {
                   originalContentUrl: url,

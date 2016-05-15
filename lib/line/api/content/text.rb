@@ -8,7 +8,7 @@ module Line
         CONTENT_TYPE = 1
         attr_accessor :text
 
-        def to_json
+        def as_json
           super.merge(
               {
                   text: text

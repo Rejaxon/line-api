@@ -9,7 +9,7 @@ module Line
           self.to_type ||= 1
         end
 
-        def to_json
+        def as_json
           {
               contentType: self.class::CONTENT_TYPE,
               toType: to_type
