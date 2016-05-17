@@ -6,6 +6,7 @@ module Line
       include AccessToken
       include Friend
       include Message
+      include Profile
     end
   end
 end
