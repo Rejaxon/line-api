@@ -2,7 +2,6 @@ module Line
   module Api
     module Endpoint
       module AccessToken
-        attr_accessor :oauth_cb_uri
 
         # @see https://developers.line.me/web-login/integrating-web-login#obtain_access_token
         def retrieve_access_token(oauth_code)
