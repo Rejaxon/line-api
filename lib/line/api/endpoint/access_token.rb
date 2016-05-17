@@ -47,6 +47,14 @@ module Line
           res.body
         end
 
+        def check_permission(access_token)
+          conn = build_connection
+          conn.authorization :Bearer, access_token
+          res = conn.get { |req| req.url('permissions') }
+          raise Error::Communication, "Invalid HTTP Status: #{res.status}. #{res.body}" if res.status != 200
+          res.body # {"permissions":"[PROFILE_EMAIL, PROFILE_PHONE_NUMBER, PROFILE]"}
+        end
+
       end
     end
   end
