@@ -7,6 +7,7 @@ module Line
       include Friend
       include Message
       include Profile
+      include ProfilePlus
     end
   end
 end
